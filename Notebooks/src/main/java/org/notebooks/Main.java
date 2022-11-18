@@ -3,9 +3,9 @@ package org.notebooks;
 import org.notebooks.notebook.FindParameters;
 import org.notebooks.notebook.Notebook;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Main {
     // Множество ноутбуков.
@@ -24,7 +24,8 @@ public class Main {
                 case 1:
                     notebookSet.add(askNotebookInfo());
                     break;
-                case 2: // TODO: 18.11.2022 реализовать вывод инфы по ноутбукам
+                case 2:
+                    showNotebooks();
                     break;
                 case 3:
                     setFilter(menuFind());
@@ -77,10 +78,10 @@ public class Main {
     }
 
     // Установка параметров фильтра.
-    private static void setFilter(int mode){
+    private static void setFilter(int mode) {
         findParameters.activeParameter = mode;
 
-        switch (mode){
+        switch (mode) {
             case 1:         // Процессор.
                 findParameters.processor = readString("Процессор: ");
                 break;
@@ -110,8 +111,52 @@ public class Main {
         }
     }
 
+    // Отображение данных. Если назначен фильтр -
     private static void showNotebooks() {
+        Logger logger = Logger.getAnonymousLogger();
+        List<Notebook> infoNotebook = null;
 
+        if (findParameters.activeParameter > 0) {
+            logger.info("Параметры поиска:");
+
+            switch (findParameters.activeParameter) {
+                case 1:
+                    logger.info(String.format("Процессор : %s", findParameters.processor));
+                    infoNotebook = notebookSet.stream()
+                            .filter(e -> e.getProcessor().equals(findParameters.processor))
+                            .collect(Collectors.toList());
+                    break;
+                case 2:
+                    logger.info(String.format("ОЗУ от %d до %d", findParameters.minMemorySize, findParameters.maxMemorySize));
+                    infoNotebook = notebookSet.stream()
+                            .filter(e -> (e.getMemorySize() >= findParameters.minMemorySize && e.getMemorySize() <= findParameters.maxMemorySize))
+                            .collect(Collectors.toList());
+                    break;
+                case 3:
+                    logger.info(String.format("Тип диска: %s", findParameters.diskType));
+                    infoNotebook = notebookSet.stream()
+                            .filter(e -> e.getDiskType().equals(findParameters.diskType))
+                            .collect(Collectors.toList());
+                    break;
+                case 4:
+                    logger.info(String.format("Объем диска от %d до %d", findParameters.minDiskVolume, findParameters.maxDiskVolume));
+                    infoNotebook = notebookSet.stream()
+                            .filter(e -> (e.getDiskVolume() >= findParameters.minDiskVolume && e.getDiskVolume() <= findParameters.maxDiskVolume))
+                            .collect(Collectors.toList());
+                    break;
+                case 5:
+                    logger.info(String.format("ОС: %s", findParameters.osName));
+                    infoNotebook = notebookSet.stream()
+                            .filter(e -> (e.getDiskVolume() >= findParameters.minDiskVolume && e.getDiskVolume() <= findParameters.maxDiskVolume))
+                            .collect(Collectors.toList());
+                    break;
+            }
+            if(infoNotebook == null){
+                logger.info(String.valueOf(notebookSet));
+            }else {
+                logger.info(infoNotebook.toString());
+            }
+        }
     }
 
 
