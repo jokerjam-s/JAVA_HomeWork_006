@@ -25,7 +25,7 @@ public class Notebook {
     // конструктор по дефолту
     public Notebook() {
         this.memorySize = 8;
-        this.processor = "Intel i3";
+        this.processor = "Intel";
         this.diskVolume = 500;
         this.diskType = "HDD";
         this.osName = "Windows 10";
@@ -53,12 +53,12 @@ public class Notebook {
 
     @Override
     public String toString() {
-        return "Notebook{" +
-                "memorySize=" + memorySize +
-                ", processor='" + processor + '\'' +
-                ", diskVolume=" + diskVolume +
-                ", diskType='" + diskType + '\'' +
-                ", osName='" + osName + '\'' +
+        return "Ноутбук{" +
+                "память: " + memorySize +
+                ", процесор: " + processor +
+                ", объем диска: " + diskVolume +
+                ", диск: " + diskType +
+                ", ОС: " + osName +
                 '}';
     }
 

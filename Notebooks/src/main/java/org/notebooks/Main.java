@@ -152,10 +152,12 @@ public class Main {
                     break;
             }
             if(infoNotebook == null){
-                logger.info(String.valueOf(notebookSet));
+                logger.info("Нет данных");
             }else {
                 logger.info(infoNotebook.toString());
             }
+        }else {
+            logger.info(String.valueOf(notebookSet));
         }
     }
 
